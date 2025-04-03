@@ -27,3 +27,12 @@ dependencies:
     version: "17.3.14"
     repository: "https://charts.bitnami.com/bitnami"
     condition: redis.enabled
+  - name: postgresql
+    version: 14.x.x
+    repository: "https://charts.bitnami.com/bitnami"
+    condition: postgresql.enabled
+  - name: common
+    version: 2.x.x
+    repository: "https://charts.bitnami.com/bitnami"
+    tags:
+    - bitnami-common

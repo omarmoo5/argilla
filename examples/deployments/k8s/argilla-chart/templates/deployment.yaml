@@ -30,7 +30,6 @@ spec:
           image: "{{ .Values.argilla.image.repository }}:{{ .Values.argilla.image.tag }}"
           env:
             - name: ARGILLA_ELASTICSEARCH
-              # TODO: modify this to use externalElasticsearch.host if elasticsearch.useOperator is false
               value: {{if .Values.elasticsearch.useOperator}}"http://{{ include "argilla.fullname" . }}-es-http:9200"{{else}}"{{ .Values.externalElasticsearch.host }}:{{ .Values.externalElasticsearch.port }}"{{end}}
             - name: ARGILLA_ELASTICSEARCH_SSL_VERIFY
               value: {{ .Values.elasticsearch.sslVerify | quote }}

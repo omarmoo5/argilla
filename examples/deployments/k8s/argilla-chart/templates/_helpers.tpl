@@ -75,3 +75,38 @@ app.kubernetes.io/component: worker
 app.kubernetes.io/name: {{ include "argilla.worker.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}-worker
 {{- end }}
+
+{{/*
+Database app name
+*/}}
+{{- define "argilla.postgresql.fullname" -}}
+{{- include "common.names.dependency.fullname" (dict "chartName" "postgresql" "chartValues" .Values.postgresql "context" $) -}}
+{{- end -}}
+
+{{/*
+Return the Database hostname
+*/}}
+{{- define "argilla.databaseHost" -}}
+{{- ternary (include "argilla.postgresql.fullname" .) .Values.externalDatabase.host .Values.postgresql.enabled | quote -}}
+{{- end -}}
+
+{{/*
+Return the Database port
+*/}}
+{{- define "argilla.databasePort" -}}
+{{- ternary "5432" .Values.externalDatabase.port .Values.postgresql.enabled | quote -}}
+{{- end -}}
+
+{{/*
+Return the Database name
+*/}}
+{{- define "argilla.databaseName" -}}
+{{- ternary .Values.postgresql.auth.database .Values.externalDatabase.database .Values.postgresql.enabled | quote -}}
+{{- end -}}
+
+{{/*
+Return the Database user
+*/}}
+{{- define "argilla.databaseUser" -}}
+{{- ternary .Values.postgresql.auth.username .Values.externalDatabase.user .Values.postgresql.enabled | quote -}}
+{{- end -}}
